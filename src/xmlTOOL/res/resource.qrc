@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>suffix-xml.png</file>
+    </qresource>
+</RCC>
