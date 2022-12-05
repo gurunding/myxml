@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>suffix-xml.png</file>
+        <file>res/suffix-xml.png</file>
     </qresource>
 </RCC>

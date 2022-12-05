@@ -1,26 +1,22 @@
-QT       += core gui xml
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-DESTDIR += $$PWD/bin
-RC_ICONS = myxml.ico
+#DESTDIR += $$PWD/bin
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    xmlsyntaxhighlighter.cpp \
-    xmltool.cpp
+    $$PWD/theme.cpp
 
 HEADERS += \
-    xmlsyntaxhighlighter.h \
-    xmltool.h
+    $$PWD/theme.h
 
 FORMS += \
-    xmltool.ui
+    $$PWD/theme.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,6 +24,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resource.qrc
+    $$PWD/resource.qrc
 
-include($$PWD/theme/theme.pri)
+DISTFILES +=

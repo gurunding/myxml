@@ -13,6 +13,9 @@ XMLTOOL::XMLTOOL(QWidget *parent)
 {
     ui->setupUi(this);
     new XmlSyntaxHighlighter(ui->textEdit_show->document());
+    setEnv = new THEME();
+    connect(setEnv, &THEME::selectClasscialSignal, this, &XMLTOOL::change_classcial_theme);
+    connect(setEnv, &THEME::selectDeepBlackSignal, this, &XMLTOOL::change_deep_black_theme);
 }
 
 XMLTOOL::~XMLTOOL()
@@ -68,6 +71,7 @@ void XMLTOOL::on_pushButton_open_clicked()
         else
         {
             QTextStream xmlIN(&xmlFile);
+            xmlIN.setCodec("UTF-8");//读文件编码方式，解决textedit显示中文乱码问题。
             ui->textEdit_show->setText(xmlIN.readAll());
             xmlFile.close();
         }
@@ -99,3 +103,39 @@ void XMLTOOL::on_pushButton_save_clicked()
     }
 }
 
+/************************************************
+函数名：on_pushButton_environment_clicked()
+功能：调用选择主题对话框窗口
+************************************************/
+void XMLTOOL::on_pushButton_environment_clicked()
+{
+    setEnv->exec();
+}
+
+/************************************************
+函数名：change_classcial_theme()
+功能：实现经典主题功能
+************************************************/
+void XMLTOOL::change_classcial_theme()
+{
+    QFile loadQSSFile("../theme/res/classcial-style.qss");
+    loadQSSFile.open(QIODevice::ReadOnly);
+    ui->textEdit_show->setStyleSheet(loadQSSFile.readAll());
+    loadQSSFile.close();
+    ui->textEdit_show->selectAll();
+    ui->textEdit_show->setTextColor(QColor(0, 0, 0));
+}
+
+/************************************************
+函数名：change_deep_black_theme()
+功能：实现暗黑主题功能
+************************************************/
+void XMLTOOL::change_deep_black_theme()
+{   
+    QFile loadQSSFile("../theme/res/deep-black-style.qss");
+    loadQSSFile.open(QIODevice::ReadOnly);
+    ui->textEdit_show->setStyleSheet(loadQSSFile.readAll());
+    loadQSSFile.close();
+    ui->textEdit_show->selectAll();
+    ui->textEdit_show->setTextColor(QColor(255, 255, 255));
+}

@@ -2,6 +2,7 @@
 #define XMLTOOL_H
 
 #include <QWidget>
+#include "theme/theme.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class XMLTOOL; }
@@ -22,7 +23,14 @@ private slots:
 
     void on_pushButton_save_clicked();
 
+    void on_pushButton_environment_clicked();
+
+    void change_classcial_theme();
+
+    void change_deep_black_theme();
+
 private:
     Ui::XMLTOOL *ui;
+    THEME *setEnv;//子窗体对象
 };
 #endif // XMLTOOL_H

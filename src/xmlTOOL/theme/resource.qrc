@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/classcial.png</file>
+        <file>res/deep-black.png</file>
+        <file>res/classcial-style.qss</file>
+        <file>res/deep-black-style.qss</file>
+    </qresource>
+</RCC>
