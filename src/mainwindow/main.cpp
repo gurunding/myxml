@@ -1,11 +1,11 @@
-#include "theme.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    THEME w;
+    MAINWINDOW w;
     w.show();
     return a.exec();
 }

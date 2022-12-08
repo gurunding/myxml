@@ -3,20 +3,27 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-#DESTDIR += $$PWD/bin
+
+DESTDIR += $$PWD/bin
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    $$PWD/theme.cpp
+    mainwindow/main.cpp \
+    mainwindow/mainwindow.cpp \
+    options/options.cpp \
+    shared/xmlsyntaxhighlighter.cpp
 
 HEADERS += \
-    $$PWD/theme.h
+    mainwindow/mainwindow.h \
+    options/options.h \
+    shared/xmlsyntaxhighlighter.h
 
 FORMS += \
-    $$PWD/theme.ui
+    mainwindow/mainwindow.ui \
+    options/options.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -24,6 +31,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    $$PWD/resource.qrc
+    resource.qrc
 
-DISTFILES +=
+RC_FILE += exeicon.rc

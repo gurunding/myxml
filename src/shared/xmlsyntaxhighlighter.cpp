@@ -69,12 +69,12 @@ XmlSyntaxHighlighter::XmlSyntaxHighlighter(QTextDocument *parent)
     highlightingRules.append(rule);
 
     // attribute content format
-    attributeContentFormat.setForeground(Qt::red);
+    attributeContentFormat.setForeground(Qt::darkRed);
     rule.pattern = QRegExp("(\"[^\"]*\"|'[^']*')");
     rule.format = attributeContentFormat;
     highlightingRules.append(rule);
 
-    commentFormat.setForeground(Qt::gray);
+    commentFormat.setForeground(Qt::darkGray);
     commentFormat.setFontItalic(true);
 
     commentStartExpression = QRegExp("<!--");
