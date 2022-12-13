@@ -1,78 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MAINWINDOW</class>
- <widget class="QWidget" name="MAINWINDOW">
+ <widget class="QMainWindow" name="MAINWINDOW">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
-    <height>601</height>
+    <width>797</width>
+    <height>600</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <weight>50</weight>
-    <bold>false</bold>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>myxml</string>
+   <string>My XML</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../resource.qrc">
-    <normaloff>:/res/xml.png</normaloff>:/res/xml.png</iconset>
-  </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
-    <widget class="QTextEdit" name="textEdit">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton_open">
-       <property name="text">
-        <string>打开</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_save">
-       <property name="text">
-        <string>保存</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_options">
-       <property name="text">
-        <string>选项</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionopen"/>
+   <addaction name="actionsave"/>
+   <addaction name="actionoptions"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionopen">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/res/open.png</normaloff>:/res/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>open</string>
+   </property>
+   <property name="toolTip">
+    <string>打开</string>
+   </property>
+  </action>
+  <action name="actionsave">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/res/save.png</normaloff>:/res/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>save</string>
+   </property>
+   <property name="toolTip">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="actionoptions">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/res/options.png</normaloff>:/res/options.png</iconset>
+   </property>
+   <property name="text">
+    <string>options</string>
+   </property>
+   <property name="toolTip">
+    <string>选项</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../resource.qrc"/>

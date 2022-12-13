@@ -3,5 +3,8 @@
         <file>res/xml.png</file>
         <file>res/black.png</file>
         <file>res/classcial.png</file>
+        <file>res/open.png</file>
+        <file>res/options.png</file>
+        <file>res/save.png</file>
     </qresource>
 </RCC>

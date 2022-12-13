@@ -1,6 +1,5 @@
 #include "options.h"
 #include "ui_options.h"
-#include <QDebug>
 
 OPTIONS::OPTIONS(QWidget *parent)
     : QDialog(parent)
@@ -20,6 +19,7 @@ void OPTIONS::on_pushButton_apply_clicked()
     {
         emit selectBlack();
     }
+
     else if (ui->radioButton_classcial->isChecked())
     {
         emit selectClasscial();
