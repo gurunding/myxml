@@ -40,6 +40,7 @@
    <addaction name="actionopen"/>
    <addaction name="actionsave"/>
    <addaction name="actionoptions"/>
+   <addaction name="actionhelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionopen">
@@ -76,6 +77,18 @@
    </property>
    <property name="toolTip">
     <string>选项</string>
+   </property>
+  </action>
+  <action name="actionhelp">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/res/help.png</normaloff>:/res/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>help</string>
+   </property>
+   <property name="toolTip">
+    <string>帮助</string>
    </property>
   </action>
  </widget>

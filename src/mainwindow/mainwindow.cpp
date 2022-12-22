@@ -4,7 +4,13 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QCloseEvent>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QMimeType>
+#include <QMimeDatabase>
 #include <QDebug>
+
+int ret = 0;
 
 MAINWINDOW::MAINWINDOW(QMainWindow *parent) :
     QMainWindow(parent)
@@ -12,7 +18,10 @@ MAINWINDOW::MAINWINDOW(QMainWindow *parent) :
 {
     ui->setupUi(this);
 
+    setAcceptDrops(true);
+
     editor = new LINESHOW();
+    editor->setAcceptDrops(false);
     ui->gridLayout->addWidget(editor);
 
     options = new OPTIONS();
@@ -73,24 +82,23 @@ void MAINWINDOW::change_classcial_skin()
 ************************************************/
 void MAINWINDOW::on_actionopen_triggered()
 {
-    QString xmlFileName = QFileDialog::getOpenFileName(this, "打开", "C:", "XML(*.xml)");
-    if (!xmlFileName.isNull())
+    QString xmlFilePath = QFileDialog::getOpenFileName(nullptr, "打开", "C:", "XML文件(*.xml)");
+    if (xmlFilePath.isEmpty())
     {
-        QFile file(xmlFileName);
-        if (!file.open(QIODevice::ReadOnly |QIODevice::Text))
+        return;
+    }
+    else
+    {
+        QFile xmlFile(xmlFilePath);
+        if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QMessageBox *openMessageBox = new QMessageBox(QMessageBox::Information, "提示", "这个xml文件打开失败了。",
-                                          QMessageBox::Yes);
-            openMessageBox->setButtonText(QMessageBox::Yes, "好的");
             return;
         }
-        else
-        {
-            QTextStream in(&file);
-            in.setCodec("UTF-8");// 设置字符编码，显示中文不乱码。
-            editor->setPlainText(in.readAll());
-            file.close();
-        }
+
+        QTextStream read(&xmlFile);
+        read.setCodec("UTF-8");// 设置字符编码格式为UTF-8，显示中文字符不乱码。
+        editor->setPlainText(read.readAll());
+        xmlFile.close();
     }
 }
 
@@ -100,55 +108,60 @@ void MAINWINDOW::on_actionopen_triggered()
 ************************************************/
 void MAINWINDOW::on_actionsave_triggered()
 {
-    QString xmlFileName = QFileDialog::getSaveFileName(this, "另存为", "C:", "XML(*.xml)");
-    if (!xmlFileName.isNull())
+    QString xmlFilePath = QFileDialog::getSaveFileName(this, "保存为", "C:", "XML文件(*.xml)");
+
+    if (xmlFilePath.isEmpty())
     {
-        QFile file(xmlFileName);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {   
-            QMessageBox *saveMessageBox = new QMessageBox(QMessageBox::Information, "提示", "这个xm文件没有正确保存。",
-                                          QMessageBox::Yes);
-            saveMessageBox->setButtonText(QMessageBox::Yes, "好的");
+        return;
+    }
+    else
+    {
+        QFile xmlFile(xmlFilePath);
+        if (!xmlFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
             return;
         }
-        else
-        {
-            QTextStream out(&file);
-            out << editor->toPlainText();
-            QMessageBox *saveMessageBox = new QMessageBox(QMessageBox::Information, "提示", "这个xml文件已经保存好了。",
-                                          QMessageBox::Yes);
-            saveMessageBox->setButtonText(QMessageBox::Yes, "好的");
-            file.close();
-        }
+
+        QTextStream write(&xmlFile);
+        write.setCodec("UTF-8");
+        write << editor->toPlainText();
+        QMessageBox *saveFinishedMessageBox = new QMessageBox(QMessageBox::Information,
+                                                      "提示", "这个xml文件已经保存好了。",
+                                                      QMessageBox::Yes);
+        saveFinishedMessageBox->setButtonText(QMessageBox::Yes, "好的");
+        ret = saveFinishedMessageBox->exec();
+        xmlFile.close();
     }
 }
 
 /************************************************
 函数名：closeEvent
 功能：窗口关闭事件
-参数：e
+参数：event
 返回值：NULL
 ************************************************/
-void MAINWINDOW::closeEvent(QCloseEvent *e)
+void MAINWINDOW::closeEvent(QCloseEvent *event)
 {
-    if (editor->document()->isModified())
+    if (editor->document()->isModified() && ret != QMessageBox::Yes)
     {
-        QMessageBox *closeMessageBox = new QMessageBox(QMessageBox::Question, "警告", "应用已经检测到当前xml文件被修改，确认退出吗？",
-                                       QMessageBox::Yes | QMessageBox::No);
-        closeMessageBox->setButtonText(QMessageBox::Yes, "好的");
-        closeMessageBox->setButtonText(QMessageBox::No, "取消");
-        int ret = closeMessageBox->exec();
+        QMessageBox *closeWarningMessageBox = new QMessageBox(QMessageBox::Question,
+                                                       "警告", "检测到当前xml文件被修改，确认退出吗？",
+                                                       QMessageBox::Yes | QMessageBox::No);
+        closeWarningMessageBox->setButtonText(QMessageBox::Yes, "好的");
+        closeWarningMessageBox->setButtonText(QMessageBox::No, "取消");
+        int ret = closeWarningMessageBox->exec();
         if (ret == QMessageBox::Yes)
         {
-            e->accept();
+            event->accept();
         }
         else
         {
-            e->ignore();
+            event->ignore();
             on_actionsave_triggered();
         }
     }
-    else
+
+    else if (editor->document()->isModified() && ret == QMessageBox::Yes)
     {
         this->close();
     }
@@ -191,4 +204,76 @@ void MAINWINDOW::highlignt_current_line()
     }
 
     editor->setExtraSelections(extraSelections);
+}
+
+/************************************************
+函数名：on_actionhelp_triggered
+功能：打开应用程序帮助对话框
+************************************************/
+void MAINWINDOW::on_actionhelp_triggered()
+{
+    aboutmyxml = new ABOUTMYXML();
+    aboutmyxml->show();
+}
+
+/************************************************
+函数名：dragEnterEvent
+功能：xml文件拖拽进入事件
+参数：event
+返回值：NULL
+************************************************/
+void MAINWINDOW::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+    {
+        event->acceptProposedAction();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+/************************************************
+函数名：dropEvent
+功能：xml文件拖拽释放事件
+参数：event
+返回值：NULL
+************************************************/
+void MAINWINDOW::dropEvent(QDropEvent *event)
+{
+    const QMimeData *mimedata = event->mimeData();
+    if (!mimedata->hasUrls())
+    {
+        return;
+    }
+    else
+    {
+
+        if (event->mimeData()->hasUrls() && event->mimeData()->urls()[0].fileName().right(3).compare("xml") == 0)
+        {
+            QList<QUrl> urls = mimedata->urls();
+            QString xmlFilePath = urls.at(0).toLocalFile();
+            QFile xmlFile(xmlFilePath);
+            if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                return;
+            }
+            else
+            {
+                QTextStream loadFile(&xmlFile);
+                loadFile.setCodec("UTF-8");
+                editor->setPlainText(loadFile.readAll());
+                xmlFile.close();
+            }
+        }
+        else
+        {
+            QMessageBox *dragDropMessageBox = new QMessageBox(QMessageBox::Warning,
+                                                              "警告", "不支持的文件类型！",
+                                                              QMessageBox::Yes);
+            dragDropMessageBox->setButtonText(QMessageBox::Yes, "好的");
+            dragDropMessageBox->exec();
+        }
+    }
 }

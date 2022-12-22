@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    help/aboutmyxml.cpp \
     highlight/highlighter.cpp \
     linenumber/linenumber.cpp \
     mainwindow/main.cpp \
@@ -16,12 +17,14 @@ SOURCES += \
     options/options.cpp
 
 HEADERS += \
+    help/aboutmyxml.h \
     highlight/highlighter.h \
     linenumber/linenumber.h \
     mainwindow/mainwindow.h \
     options/options.h
 
 FORMS += \
+    help/aboutmyxml.ui \
     mainwindow/mainwindow.ui \
     options/options.ui
 
