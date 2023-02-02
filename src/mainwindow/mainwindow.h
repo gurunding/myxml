@@ -33,6 +33,7 @@ private slots:
     void change_black_skin();
     void highlignt_current_line();
     void on_actionhelp_triggered();
+//    void on_actionparse_triggered();
 
 private:
     Ui::MAINWINDOW *ui;

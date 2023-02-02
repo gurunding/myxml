@@ -7,5 +7,6 @@
         <file>res/help.png</file>
         <file>res/black.png</file>
         <file>res/classcial.png</file>
+        <file>res/parse.png</file>
     </qresource>
 </RCC>

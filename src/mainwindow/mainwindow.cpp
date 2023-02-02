@@ -9,6 +9,7 @@
 #include <QMimeType>
 #include <QMimeDatabase>
 #include <QDebug>
+#include <QXmlStreamReader>
 
 int ret = 0;
 
@@ -35,6 +36,7 @@ MAINWINDOW::MAINWINDOW(QMainWindow *parent) :
     connect(editor, &QPlainTextEdit::cursorPositionChanged, this, &MAINWINDOW::set_app_statusBar);// 连接改变光标位置信号槽
 
     connect(editor, &QPlainTextEdit::cursorPositionChanged, this, &MAINWINDOW::highlignt_current_line);// 连接高亮显示当前行信号槽
+
 }
 
 MAINWINDOW::~MAINWINDOW()
@@ -82,7 +84,7 @@ void MAINWINDOW::change_classcial_skin()
 ************************************************/
 void MAINWINDOW::on_actionopen_triggered()
 {
-    QString xmlFilePath = QFileDialog::getOpenFileName(nullptr, "打开", "C:", "XML文件(*.xml)");
+    QString xmlFilePath = QFileDialog::getOpenFileName(this, "打开", "C:", "XML文件(*.xml)");
     if (xmlFilePath.isEmpty())
     {
         return;
@@ -277,3 +279,49 @@ void MAINWINDOW::dropEvent(QDropEvent *event)
         }
     }
 }
+
+///************************************************
+//函数名：on_actionparse_triggered
+//功能：解析打开的xml文件
+//************************************************/
+//void MAINWINDOW::on_actionparse_triggered()
+//{
+//        QString XMLPath = QFileDialog::getOpenFileName(this, "选择文件", "C:", "XML文件(*.xml)");
+//        QFile parseXMLFile(XMLPath);
+//        if (!parseXMLFile.open(QIODevice::ReadOnly | QIODevice::Text))
+//        {
+//            return;
+//        }
+
+//        QXmlStreamReader reader;
+//        reader.setDevice(&parseXMLFile);
+//        while (!reader.atEnd())
+//        {
+//            QXmlStreamReader::TokenType type = reader.readNext();
+//            if (type == QXmlStreamReader::StartDocument)///1
+//            {
+//                qDebug() << "xml版本：" << reader.documentVersion() << "编码：" << reader.documentEncoding();
+//            }
+//            else if (type ==  QXmlStreamReader::StartElement)///2
+//            {
+//                qDebug() << "开始节点：" << reader.name();
+//            }
+//            else if (reader.attributes().hasAttribute("id"))///3
+//            {
+//                qDebug() << "属性值：" << reader.attributes().value("id");
+//            }
+//            else if (type == QXmlStreamReader::EndElement)///4
+//            {
+//                qDebug() << "结束节点：" << reader.name();
+//            }
+//            else if (type == QXmlStreamReader::Characters && !reader.isWhitespace())///5
+//            {
+//                qDebug() << "文本内容："<< reader.text();
+//            }
+//            else if (reader.hasError())
+//            {
+
+//            }
+//        }
+//        parseXMLFile.close();
+//}

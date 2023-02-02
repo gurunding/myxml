@@ -91,6 +91,18 @@
     <string>帮助</string>
    </property>
   </action>
+  <action name="actionparse">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/res/parse.png</normaloff>:/res/parse.png</iconset>
+   </property>
+   <property name="text">
+    <string>parse</string>
+   </property>
+   <property name="toolTip">
+    <string>解析</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../resource.qrc"/>
